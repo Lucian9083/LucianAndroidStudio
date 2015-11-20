@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleArcView">
+        <attr name="arcStrokeColor" format="color"/>
+        <attr name="arcStrokeWidth" format="dimension"/>
+        <attr name="arcStartDegree" format="float"/>
+        <attr name="arcSweepDegree" format="float"/>
+        <attr name="arcMinValue" format="float"/>
+        <attr name="arcMaxValue" format="float"/>
+        <attr name="alertArcStrokeColor" format="color"/>
+        <attr name="enableMaxAlert" format="boolean"/>
+        <attr name="enableMinAlert" format="boolean"/>
+        <attr name="enableAnimal" format="boolean"/>
+        <attr name="animalDuration" format="float"/>
+        <attr name="arcStrokeStyle">
+            <enum name="BUTT" value="0"/>
+            <enum name="SQUARE" value="1"/>
+            <enum name="ROUND" value="2"/>
+        </attr>
+    </declare-styleable>
+</resources>

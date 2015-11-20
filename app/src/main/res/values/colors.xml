@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="circle_view_stroke">#0099CC</color>
+    <color name="circle_view_stroke_alert">#CC0000</color>
+</resources>
