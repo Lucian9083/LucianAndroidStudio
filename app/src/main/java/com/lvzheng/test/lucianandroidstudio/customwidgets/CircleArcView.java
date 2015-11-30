@@ -20,35 +20,35 @@ public class CircleArcView extends View{
 
     private final float ANIMAL_SPEED = 20.17f; // the time-consume of onDrow method (ms)
 
-    private Paint mPaint;
+    private Paint mPaint;                // The paint to draw
 
-    private int mArcStrokeColor;
+    private int mArcStrokeColor;         // The arc stroke color
 
-    private float mArcStrokeWidth;
+    private float mArcStrokeWidth;       // The arc stroke width
 
-    private float mArcStartDegree;
+    private float mArcStartDegree;       // The beginning degree of drawing arc
 
-    private float mArcSweepDegree;
+    private float mArcSweepDegree;       // The degree of sweep
 
-    private float mAnimalDegree;
+    private float mAnimalDegree;         // The degree that once drawing of animal
 
-    private float mAlertMinValue;
+    private float mAlertMinValue;        // The alert of minimal value
 
-    private float mAlertMaxValue;
+    private float mAlertMaxValue;        // The alert of maximal value
 
-    private boolean mEnableMaxAlert;
+    private boolean mEnableMaxAlert;     // The toggle of  maximal alert
 
-    private boolean mEnableMinAlert;
+    private boolean mEnableMinAlert;     // The toggle of minimal alert
 
-    private int mAlertArcStrokeColor;
+    private int mAlertArcStrokeColor;    // The color of stroke that
 
     private Paint.Cap mCap;
 
-    private boolean mEnableAnimal;
+    private boolean mEnableAnimal;       // The toggle of animal
 
-    private float mAnimalDuration;
+    private float mAnimalDuration;       // The duration of animal
 
-    private int mReDrawTimes;
+    private int mReDrawTimes;            // The times of redrawing
 
     private float mD; // 公差
 
@@ -165,11 +165,11 @@ public class CircleArcView extends View{
         int strokeColor;
         int alertColor;
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-            strokeColor = context.getResources().getColor(R.color.circle_view_stroke);
-            alertColor = context.getResources().getColor(R.color.circle_view_stroke_alert);
+            strokeColor = context.getResources().getColor(android.R.color.holo_blue_dark);
+            alertColor = context.getResources().getColor(android.R.color.holo_red_dark);
         }else {
-            strokeColor = context.getColor(R.color.circle_view_stroke);
-            alertColor = context.getColor(R.color.circle_view_stroke_alert);
+            strokeColor = context.getColor(android.R.color.holo_blue_dark);
+            alertColor = context.getColor(android.R.color.holo_red_dark);
         }
 
         mArcStrokeColor = typedArray.getColor(R.styleable.CircleArcView_arcStrokeColor, strokeColor);
@@ -226,7 +226,7 @@ public class CircleArcView extends View{
         mAnimalDegree = mArcStartDegree;
 
 //        mArcSweepDegree = mArcStartDegree*mReDrawTimes + (mReDrawTimes*(mReDrawTimes - 1))/2 * mD;
-
+        // 用等差数列前n项和公式，求出公差
         mD = (mArcSweepDegree - mArcStartDegree*mReDrawTimes)/((mReDrawTimes*(mReDrawTimes -1))/2);
 
     }
@@ -255,6 +255,8 @@ public class CircleArcView extends View{
                 mAnimalDegree += (mDrawCount-1)*mD;
 
                 invalidate();
+            }else{
+                mDrawCount = 0;
             }
             canvas.drawArc(mRectF, mArcStartDegree, mAnimalDegree, false,mPaint);
         } else {
@@ -262,5 +264,115 @@ public class CircleArcView extends View{
         }
     }
 
+    /**
+     * Start the animal of drawing
+     */
+    public void startAnimal(){
+        startAnimal(mAnimalDuration);
+    }
 
+    /**
+     * Start the animal of drawing
+     * @param duration
+     *              The duration of animal
+     */
+    public void startAnimal(float duration){
+        mDrawCount = 0;
+
+        // calculate the times of redraw
+        mReDrawTimes = (int) (mAnimalDuration/ANIMAL_SPEED);
+
+        mAnimalDegree = mArcStartDegree;
+        // 用等差数列前n项和公式，求出公差
+        mD = (mArcSweepDegree - mArcStartDegree*mReDrawTimes)/((mReDrawTimes*(mReDrawTimes -1))/2);
+        invalidate();
+    }
+
+    public int getmArcStrokeColor() {
+        return mArcStrokeColor;
+    }
+
+    public void setmArcStrokeColor(int mArcStrokeColor) {
+        this.mArcStrokeColor = mArcStrokeColor;
+    }
+
+    public float getmArcStrokeWidth() {
+        return mArcStrokeWidth;
+    }
+
+    public void setmArcStrokeWidth(float mArcStrokeWidth) {
+        this.mArcStrokeWidth = mArcStrokeWidth;
+    }
+
+    public float getmArcStartDegree() {
+        return mArcStartDegree;
+    }
+
+    public void setmArcStartDegree(float mArcStartDegree) {
+        this.mArcStartDegree = mArcStartDegree;
+    }
+
+    public float getmArcSweepDegree() {
+        return mArcSweepDegree;
+    }
+
+    public void setmArcSweepDegree(float mArcSweepDegree) {
+        this.mArcSweepDegree = mArcSweepDegree;
+    }
+
+    public float getmAlertMinValue() {
+        return mAlertMinValue;
+    }
+
+    public void setmAlertMinValue(float mAlertMinValue) {
+        this.mAlertMinValue = mAlertMinValue;
+    }
+
+    public float getmAlertMaxValue() {
+        return mAlertMaxValue;
+    }
+
+    public void setmAlertMaxValue(float mAlertMaxValue) {
+        this.mAlertMaxValue = mAlertMaxValue;
+    }
+
+    public boolean ismEnableMaxAlert() {
+        return mEnableMaxAlert;
+    }
+
+    public void setmEnableMaxAlert(boolean mEnableMaxAlert) {
+        this.mEnableMaxAlert = mEnableMaxAlert;
+    }
+
+    public boolean ismEnableMinAlert() {
+        return mEnableMinAlert;
+    }
+
+    public void setmEnableMinAlert(boolean mEnableMinAlert) {
+        this.mEnableMinAlert = mEnableMinAlert;
+    }
+
+    public int getmAlertArcStrokeColor() {
+        return mAlertArcStrokeColor;
+    }
+
+    public void setmAlertArcStrokeColor(int mAlertArcStrokeColor) {
+        this.mAlertArcStrokeColor = mAlertArcStrokeColor;
+    }
+
+    public boolean ismEnableAnimal() {
+        return mEnableAnimal;
+    }
+
+    public void setmEnableAnimal(boolean mEnableAnimal) {
+        this.mEnableAnimal = mEnableAnimal;
+    }
+
+    public float getmAnimalDuration() {
+        return mAnimalDuration;
+    }
+
+    public void setmAnimalDuration(float mAnimalDuration) {
+        this.mAnimalDuration = mAnimalDuration;
+    }
 }
