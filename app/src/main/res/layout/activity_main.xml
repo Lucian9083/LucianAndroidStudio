@@ -34,7 +34,7 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_below="@+id/button"
-        arc:enableAnimal="true"
+        arc:enableAnimal="false"
         arc:arcStartDegree="0"
         arc:arcSweepDegree="270"
         arc:arcStrokeWidth="32dp"
@@ -43,6 +43,8 @@
         arc:enableMaxAlert="true"
         arc:arcMaxValue="100"
         arc:animalDuration="500"
+        arc:arcPaintStyle="STROKE"
+        arc:arcStrokeCap="BUTT"
         />
 
 </RelativeLayout>

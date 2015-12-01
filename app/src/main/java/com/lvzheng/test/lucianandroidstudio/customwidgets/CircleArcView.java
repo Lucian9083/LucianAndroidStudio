@@ -44,6 +44,8 @@ public class CircleArcView extends View{
 
     private Paint.Cap mCap;
 
+    private Paint.Style mPaintStyle;     // The style of paint
+
     private boolean mEnableAnimal;       // The toggle of animal
 
     private float mAnimalDuration;       // The duration of animal
@@ -158,7 +160,6 @@ public class CircleArcView extends View{
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setStyle(Paint.Style.STROKE);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircleArcView);
 
@@ -186,8 +187,8 @@ public class CircleArcView extends View{
 
         mAlertArcStrokeColor = typedArray.getColor(R.styleable.CircleArcView_alertArcStrokeColor,alertColor);
 
-        int  value = typedArray.getInt(R.styleable.CircleArcView_arcStrokeStyle,0);
-        switch (value){
+        int  cap = typedArray.getInt(R.styleable.CircleArcView_arcStrokeCap,0);
+        switch (cap){
             case 0:
                 mCap = Paint.Cap.BUTT;
                 break;
@@ -202,11 +203,29 @@ public class CircleArcView extends View{
                 break;
         }
 
+        int style = typedArray.getInt(R.styleable.CircleArcView_arcPaintStyle,2);
+        switch (style){
+            case 0:
+                mPaintStyle = Paint.Style.FILL;
+                break;
+            case 1:
+                mPaintStyle = Paint.Style.FILL_AND_STROKE;
+                break;
+            case 2:
+                mPaintStyle = Paint.Style.STROKE;
+                break;
+            default:
+                mPaintStyle = Paint.Style.STROKE;
+                break;
+        }
+
         mPaint.setColor(mArcStrokeColor);
 
         mPaint.setStrokeWidth(mArcStrokeWidth);
 
         mPaint.setStrokeCap(mCap);
+
+        mPaint.setStyle(mPaintStyle);
 
         mEnableMaxAlert = typedArray.getBoolean(R.styleable.CircleArcView_enableMaxAlert,false);
 
@@ -379,5 +398,23 @@ public class CircleArcView extends View{
 
     public void setmAnimalDuration(float mAnimalDuration) {
         this.mAnimalDuration = mAnimalDuration;
+    }
+
+    public Paint.Cap getmCap() {
+        return mCap;
+    }
+
+    public void setmCap(Paint.Cap mCap) {
+        this.mCap = mCap;
+        mPaint.setStrokeCap(mCap);
+    }
+
+    public Paint.Style getmPaintStyle() {
+        return mPaintStyle;
+    }
+
+    public void setmPaintStyle(Paint.Style mPaintStyle) {
+        this.mPaintStyle = mPaintStyle;
+        mPaint.setStyle(mPaintStyle);
     }
 }
