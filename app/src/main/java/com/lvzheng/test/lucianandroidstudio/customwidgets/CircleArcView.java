@@ -254,11 +254,16 @@ public class CircleArcView extends View{
                 mDrawCount++;
                 mAnimalDegree += (mDrawCount-1)*mD;
 
+                canvas.drawArc(mRectF, mArcStartDegree, mAnimalDegree, false,mPaint);
+
                 invalidate();
             }else{
+
+                canvas.drawArc(mRectF, mArcStartDegree, mAnimalDegree, false,mPaint);
                 mDrawCount = 0;
+                mAnimalDegree = mArcStartDegree;
             }
-            canvas.drawArc(mRectF, mArcStartDegree, mAnimalDegree, false,mPaint);
+
         } else {
             canvas.drawArc(mRectF, mArcStartDegree, mArcSweepDegree, false,mPaint);
         }
@@ -280,7 +285,7 @@ public class CircleArcView extends View{
         mDrawCount = 0;
 
         // calculate the times of redraw
-        mReDrawTimes = (int) (mAnimalDuration/ANIMAL_SPEED);
+        mReDrawTimes = (int) (duration/ANIMAL_SPEED);
 
         mAnimalDegree = mArcStartDegree;
         // 用等差数列前n项和公式，求出公差

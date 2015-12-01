@@ -12,6 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
+    <EditText
+        android:id="@+id/edit_tx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button"
+        android:layout_toEndOf="@+id/button"
+        android:layout_marginStart="8dp"
+        />
 
     <Button
         android:id="@+id/button"
@@ -20,11 +28,13 @@
         android:layout_below="@+id/helloword"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
     <com.lvzheng.test.lucianandroidstudio.customwidgets.CircleArcView
+        android:id="@+id/circle_arc"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_below="@+id/button"
-        arc:enableAnimal="false"
+        arc:enableAnimal="true"
         arc:arcStartDegree="0"
         arc:arcSweepDegree="270"
         arc:arcStrokeWidth="32dp"
