@@ -18,7 +18,7 @@ import com.lvzheng.test.lucianandroidstudio.R;
 public class CircleArcView extends View{
     public static final String TAG = CircleArcView.class.getSimpleName();
 
-    private final float ANIMAL_SPEED = 20.17f; // the time-consume of onDrow method (ms)
+    private final float ANIMAL_SPEED = 20.17f; // The time-consume of onDraw performing (ms)
 
     private Paint mPaint;                // The paint to draw
 
@@ -242,13 +242,17 @@ public class CircleArcView extends View{
 
         mDrawCount = 0;
 
-        mAnimalDegree = mArcStartDegree;
+//        mAnimalDegree = mArcStartDegree;
 
 //        mArcSweepDegree = mArcStartDegree*mReDrawTimes + (mReDrawTimes*(mReDrawTimes - 1))/2 * mD;
         // 用等差数列前n项和公式，求出公差
-        mD = (mArcSweepDegree - mArcStartDegree*mReDrawTimes)/((mReDrawTimes*(mReDrawTimes -1))/2);
+//        mD = (mArcSweepDegree - mArcStartDegree*mReDrawTimes)/((mReDrawTimes*(mReDrawTimes -1))/2);
 
     }
+
+    private float mBeforeValue = 0.0f;
+
+    private float mCurrentValue = 0.0f;
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -264,28 +268,42 @@ public class CircleArcView extends View{
         float gap = mArcStrokeWidth / 2;
 
         mRectF.set(0f + gap, 0f + gap, getWidth() - gap, getHeight()-gap);
-
         if(mEnableAnimal){
+            // TODO: 15/12/10
 
-            if(mDrawCount < mReDrawTimes){
+            if(mBeforeValue < mCurrentValue){
+
+                mD = (mCurrentValue - mBeforeValue*mReDrawTimes)/((mReDrawTimes*(mReDrawTimes - 1))/2);
+
+                if(mDrawCount < mReDrawTimes){
 
 //                mAnimalDegree += mArcSweepDegree/mReDrawTimes;
-                mDrawCount++;
-                mAnimalDegree += (mDrawCount-1)*mD;
+                    mDrawCount++;
+                    mAnimalDegree += (mDrawCount-1)*mD;
 
-                canvas.drawArc(mRectF, mArcStartDegree, mAnimalDegree, false,mPaint);
+                    canvas.drawArc(mRectF, mArcStartDegree, mAnimalDegree, false,mPaint);
 
-                invalidate();
-            }else{
+                    invalidate();
+                }else{
 
-                canvas.drawArc(mRectF, mArcStartDegree, mAnimalDegree, false,mPaint);
-                mDrawCount = 0;
-                mAnimalDegree = mArcStartDegree;
+                    canvas.drawArc(mRectF, mArcStartDegree, mAnimalDegree, false,mPaint);
+                    mDrawCount = 0;
+                }
+
+            }else if(mBeforeValue > mCurrentValue){
+
+                mD = (mBeforeValue - mCurrentValue*mReDrawTimes)/((mReDrawTimes*(mReDrawTimes - 1))/2);
+
+            }else {
+
+                mD = 0.0f;
+                canvas.drawArc(mRectF, mArcStartDegree, mArcSweepDegree, false,mPaint);
             }
 
         } else {
             canvas.drawArc(mRectF, mArcStartDegree, mArcSweepDegree, false,mPaint);
         }
+
     }
 
     /**
@@ -297,10 +315,12 @@ public class CircleArcView extends View{
 
     /**
      * Start the animal of drawing
+     *
      * @param duration
      *              The duration of animal
      */
     public void startAnimal(float duration){
+        setmEnableAnimal(true);
         mDrawCount = 0;
 
         // calculate the times of redraw
@@ -342,6 +362,12 @@ public class CircleArcView extends View{
 
     public void setmArcSweepDegree(float mArcSweepDegree) {
         this.mArcSweepDegree = mArcSweepDegree;
+
+        mBeforeValue = mArcStartDegree + mCurrentValue;
+
+        mCurrentValue = mArcStartDegree + mArcSweepDegree;
+
+        mAnimalDegree = mBeforeValue;
     }
 
     public float getmAlertMinValue() {
